@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debugpy: gradio mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/OmniSVG/app.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/OmniSVG",
+            "args": [
+                "--listen", "0.0.0.0", "--port", "7860", "--debug"
+            ],
+            "env": {
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "https://hf-mirror.com",
+                "HF_HUB_ETAG_TIMEOUT": "1000",
+                "HF_HUB_DOWNLOAD_TIMEOUT": "1000"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: gradio offline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/OmniSVG/app.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/OmniSVG",
+            "args": [
+                "--listen", "0.0.0.0", "--port", "7860", "--debug"
+            ],
+            "env": {
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true"
+            },
+            "justMyCode": false
+        }
+    ]
+}

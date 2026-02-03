@@ -1,0 +1,77 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "docker: compose up@gpu-offline",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/docker/up@gpu-offline/"
+            },
+            "command": "docker compose -p omnisvg up"
+        },
+        {
+            "label": "docker: compose up@gpu-online",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/docker/up@gpu-online/"
+            },
+            "command": "docker compose -p omnisvg up"
+        },
+        {
+            "label": "docker: build main",
+            "type": "shell",
+            "command": "docker build -t xiaoyao9184/omnisvg:main -f ./docker/build@source/dockerfile ."
+        },
+        {
+            "label": "huggingface-cli: download models",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000"
+                }
+            },
+            "command": [
+                "hf download OmniSVG/OmniSVG1.1_8B --cache-dir ./cache/huggingface/hub",
+                "&& hf download Qwen/Qwen2.5-VL-7B-Instruct --cache-dir ./cache/huggingface/hub",
+                "&& hf download OmniSVG/OmniSVG1.1_4B --cache-dir ./cache/huggingface/hub",
+                "&& hf download Qwen/Qwen2.5-VL-3B-Instruct --cache-dir ./cache/huggingface/hub",
+                "&& hf download OmniSVG/OmniSVG --cache-dir ./cache/huggingface/hub",
+            ]
+        },
+        {
+            "label": "conda: gradio app",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/OmniSVG",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000",
+                    "XDG_CACHE_HOME": "${workspaceFolder}/cache"
+                }
+            },
+            "command": [
+                "conda run --no-capture-output -n omnisvg gradio app.py"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "conda: create env",
+            "type": "shell",
+            "command": [
+                "conda env create -f ./environment.yml"
+            ],
+            "options": {
+              "shell": {
+                "executable": "/bin/bash",
+                "args": ["-l", "-c"]
+              }
+            }
+        }
+    ]
+}
