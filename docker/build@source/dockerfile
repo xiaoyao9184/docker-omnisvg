@@ -1,0 +1,23 @@
+FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    libcairo2 \
+    libcairo2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade pip
+
+RUN pip3 install accelerate==1.12.0
+
+COPY ./OmniSVG /app
+RUN pip3 install --no-cache-dir \
+    -r requirements.txt
+
+EXPOSE 7860
+
+VOLUME /root/.cache
+
+CMD ["gradio", "app.py"]

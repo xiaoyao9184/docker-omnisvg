@@ -1,0 +1,18 @@
+
+
+services:
+  omnisvg_gradio:
+    image: xiaoyao9184/omnisvg:main
+    container_name: omnisvg_gradio
+    environment:
+      - TORCH_DEVICE=cuda
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
