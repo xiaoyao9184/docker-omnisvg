@@ -1,0 +1,3 @@
+[submodule "OmniSVG"]
+	path = OmniSVG
+	url = https://github.com/OmniSVG/OmniSVG.git
